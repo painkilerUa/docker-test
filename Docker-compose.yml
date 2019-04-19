@@ -12,10 +12,26 @@ services:
   #   container_name: "mongo"
   #   ports:
   #     - 27017:27017
-  jenkins:
+  # sshdev:
+  #   image: rastasheep/ubuntu-sshd:18.04
+  #   ports:
+  #     - "8082:22"
+  #   tty: true
+
+# Jenkins CI Docker container
+  ci:
     image: jenkins:2.60.3
+    user:
+      root
+    links:
+      - sshdev
     ports:
       - 8080:8080
       - 50000:50000
     volumes:
       - /Users/yevhenii_ihnatenko/Desktop/jenkins:/var/jenkins_home
+# ssh service for dev container
+  sshdev:
+    image: rastasheep/ubuntu-sshd:16.04
+    ports:
+      - "2222:22"
